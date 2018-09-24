@@ -35,7 +35,8 @@ router.all("/:table/:mode", (req, res, next) => {
 	/**
 	 * 切换到 {req.params.key} 数据表
 	 */
-	let db = eval("req.mongodb." + req.params.table);
+	// let db = eval("req.mongodb." + req.params.table);
+	let db = req.mongodb[req.params.table];
 
 	/**
 	 * 格式化数据流数据为JSON格式

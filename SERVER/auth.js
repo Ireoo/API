@@ -9,27 +9,10 @@ exports = module.exports = router;
  */
 router.post("/", (req, res, next) => {
 	console.log(req.body, req.params, req.query, req.data);
-	// let username = req.body.username,
-	// 	password = req.body.password;
 
-	// User.findOne({
-	// 	where: {
-	// 		username: username,
-	// 		password: md5(password)
-	// 	}
-	// })
-	// 	.then(user => {
-	// 		// console.log(user);
-	// 		if (user !== null) {
-	// 			req.user = user;
-	// 			next();
-	// 		} else {
-	// 			res.status(404).send(`${username} user is not ex.`);
-	// 		}
-	// 	})
-	// 	.catch(e => {
-	// 		res.status(404).send(e);
-	//     });
+	if (req.header("Authorization") && req.header("Authorization") != "") {
+		let code = req.header("Authorization");
+	}
 
 	next();
 });

@@ -12,7 +12,7 @@ const mongojs = require("./lib/mongojs");
  */
 app.use(
 	morgan(
-		'[:date[iso]] :remote-addr[:remote-user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'
+		':date[iso]] :remote-addr[:remote-user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'
 	)
 );
 
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 	/**
 	 * 获取mongodb数据库参数
 	 */
-	const connect = process.env.MONGODB || "127.0.0.1:27017/api";
+	let connect = process.env.MONGODB || "127.0.0.1:27017/api";
 
 	/**
 	 * 设置mongodb数据库连接
