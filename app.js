@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 	/**
 	 * 获取mongodb数据库参数
 	 */
-	let connect = process.env.MONGODB || "127.0.0.1:27017/api";
+	let connect = process.env.MONGODB || "127.0.0.1:27017/admin";
 
 	/**
 	 * 设置mongodb数据库连接
