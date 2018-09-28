@@ -9,10 +9,10 @@ exports = module.exports = router;
  */
 router.post("/", (req, res, next) => {
 	console.log(req.body, req.params, req.query, req.data);
+	if (!req.header("Authorization") || req.header("Authorization") === "")
+		return res.status(503).send("No Authorization.");
 
-	if (req.header("Authorization") && req.header("Authorization") != "") {
-		let code = req.header("Authorization");
-	}
+	let code = req.header("Authorization");
 
 	next();
 });
