@@ -4,18 +4,18 @@
 # Read more about containers on our dev center
 # https://devcenter.wercker.com/overview-and-core-concepts/containers/
 box: node
-	# This is the build pipeline. Pipelines are the core of wercker
-	# Read more about pipelines on our dev center
-	# https://devcenter.wercker.com/development/pipelines/
+# This is the build pipeline. Pipelines are the core of wercker
+# Read more about pipelines on our dev center
+# https://devcenter.wercker.com/development/pipelines/
 
-	# You can also use services such as databases. Read more on our dev center:
-	# https://devcenter.wercker.com/administration/services/
-	# services:
-	# - postgres
-	# https://devcenter.wercker.com/administration/services/examples/postgresql/
+# You can also use services such as databases. Read more on our dev center:
+# https://devcenter.wercker.com/administration/services/
+# services:
+# - postgres
+# https://devcenter.wercker.com/administration/services/examples/postgresql/
 
-	# - mongo
-	# https://devcenter.wercker.com/administration/services/examples/mongodb/
+# - mongo
+# https://devcenter.wercker.com/administration/services/examples/mongodb/
 build:
 	# The steps that will be executed on build
 	# Steps make up the actions in your pipeline
