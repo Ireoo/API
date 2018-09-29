@@ -11,11 +11,9 @@ exports = module.exports = router;
  * 首页内容
  */
 router.post("/", (req, res, next) => {
-	console.log(req.body, req.params, req.query, req.data);
-	if (!req.header("Authorization") || req.header("Authorization") === "")
-		return res.status(200).send("没有设置用户验证密钥,此项功能需要用户验证信息!");
+	let code = req.header("Authorization") || req.header("authorization");
 
-	let code = req.header("Authorization");
+	if (!code || code === "") return res.status(200).send("没有设置用户验证密钥,此项功能需要用户验证信息!");
 
 	let file = path.join(process.cwd(), `sessions/${code}.json`);
 	if (fs.existsSync(file)) {
