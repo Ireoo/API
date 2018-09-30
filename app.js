@@ -5,7 +5,8 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const compression = require("compression");
-const mongojs = require("./lib/mongojs");
+// const mongojs = require("./lib/mongojs");
+const mongo = require("./lib/database");
 
 /**
  * 显示访问信息
@@ -39,13 +40,13 @@ app.use((req, res, next) => {
 	/**
 	 * 获取mongodb数据库参数
 	 */
-	let connect = process.env.MONGODB || "127.0.0.1:27017/admin";
+	let connect = process.env.MONGODB || "127.0.0.1:27017/api";
 
 	/**
 	 * 设置mongodb数据库连接
-	 * @type {mongojs}
 	 */
-	req.mongodb = mongojs(connect);
+	// req.mongodb = mongojs(connect);
+	req.mongodb = new mongo(connect);
 	next();
 });
 
@@ -71,14 +72,16 @@ app.use((req, res, next) => {
 				message: `提交的数据格式错误,请提交json格式的文本`,
 				data: Buffer.concat(reqData, size).toString
 			});
+			// req.data = {};
+			// next();
 		}
 	});
 });
 
-app.use((req, res, next) => {
-	console.log(req.body, req.params, req.query, req.data);
-	next();
-});
+// app.use((req, res, next) => {
+// 	console.log(req.params, req.query, req.data);
+// 	next();
+// });
 
 /**
  * 路由规则
