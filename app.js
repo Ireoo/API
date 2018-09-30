@@ -6,7 +6,7 @@ const app = express();
 const morgan = require("morgan");
 const compression = require("compression");
 // const mongojs = require("./lib/mongojs");
-const mongo = require("./lib/database");
+const MongoDB = require("./lib/database");
 
 /**
  * 显示访问信息
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 	 * 设置mongodb数据库连接
 	 */
 	// req.mongodb = mongojs(connect);
-	req.mongodb = new mongo(connect);
+	req.mongodb = new MongoDB(connect);
 	next();
 });
 
