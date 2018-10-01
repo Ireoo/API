@@ -68,6 +68,90 @@ router.all("/:table/:mode", (req, res, next) => {
 	 */
 	switch (req.params.mode) {
 		/**
+		 * 自定义运行命令
+		 */
+		case "run":
+			db.run(input.run)
+				.then(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).data);
+					res.send({
+						success: true,
+						data
+					});
+				})
+				.catch(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).error);
+					res.send({
+						success: false,
+						data
+					});
+				});
+			break;
+
+		/**
+		 * 获取数据表列表
+		 */
+		case "listCollections":
+			db.listCollections()
+				.then(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).data);
+					res.send({
+						success: true,
+						data
+					});
+				})
+				.catch(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).error);
+					res.send({
+						success: false,
+						data
+					});
+				});
+			break;
+
+		/**
+		 * 获取数据表名称
+		 */
+		case "getCollectionNames":
+			db.getCollectionNames()
+				.then(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).data);
+					res.send({
+						success: true,
+						data
+					});
+				})
+				.catch(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).error);
+					res.send({
+						success: false,
+						data
+					});
+				});
+			break;
+
+		/**
+		 * 删除数据库
+		 */
+		case "dropDatabase":
+			db.dropDatabase()
+				.then(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).data);
+					res.send({
+						success: true,
+						data
+					});
+				})
+				.catch(data => {
+					console.log("[output] --> ".info + JSON.stringify(data).error);
+					res.send({
+						success: false,
+						data
+					});
+				});
+			break;
+
+		/**
 		 * 执行插入命令
 		 */
 		case "insert":

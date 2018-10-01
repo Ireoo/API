@@ -23,7 +23,7 @@ router.use((req, res, next) => {
 		.set("app")
 		.findOne({ secret }, {})
 		.then(data => {
-			if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
+			// if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
 			console.log("[ app ] ->", data);
 			req.app = data;
 			next();
