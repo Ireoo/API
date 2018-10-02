@@ -1,0 +1,7 @@
+{
+	"alias": "api",
+	"env": {
+		"MONGODB": "root:meiyoumima@qiyi.io/api?authSource=admin",
+		"PORT": "80"
+	}
+}

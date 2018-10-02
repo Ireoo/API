@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 	/**
 	 * 获取mongodb数据库参数
 	 */
-	let connect = process.env.MONGODB || "192.168.1.147:27017/api";
+	let connect = process.env.MONGODB || "127.0.0.1/api";
 
 	/**
 	 * 设置mongodb数据库连接
