@@ -14,7 +14,7 @@ router.use((req, res, next) => {
 	let secret = req.header("Authorization") || req.header("authorization");
 
 	if (!secret || secret === "")
-		res.status(200).send({
+		return res.status(200).send({
 			success: false,
 			data: "没有设置应用验证密钥!"
 		});
