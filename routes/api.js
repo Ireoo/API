@@ -48,7 +48,7 @@ router.all("/:table/:mode", (req, res, next) => {
 	/**
 	 * 调试输出获取的数据流信息
 	 */
-	console.log("[input]  --> " + JSON.stringify(input));
+	console.log("[input]  -->", input);
 
 	/**
 	 * 格式化数据流里各项参数where, data, other为JSON格式
