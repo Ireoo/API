@@ -11,11 +11,11 @@ const MongoDB = require("./lib/database");
 /**
  * 显示访问信息
  */
-app.use(
-	morgan(
-		'[:date[web]] :remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'
-	)
-);
+// app.use(
+// 	morgan(
+// 		'[:date[web]] :remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'
+// 	)
+// );
 
 /**
  * 添加gzip
