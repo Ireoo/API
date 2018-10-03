@@ -29,10 +29,7 @@
 		"start": "node app.js",
 		"test": "nodemon -e .js app.js",
 		"reload": "git checkout -- .",
-		"precommit": "lint-staged"
-	},
-	"lint-staged": {
-		"*.{js,json}": ["prettier --write", "git add"]
+		"precommit": "pretty-quick --staged"
 	},
 	"private": true,
 	"dependencies": {
@@ -45,8 +42,8 @@
 	},
 	"devDependencies": {
 		"husky": "^0.14.3",
-		"lint-staged": "^7.2.0",
 		"nodemon": "^1.18.3",
-		"prettier": "^1.14.0"
+		"prettier": "^1.14.3",
+		"pretty-quick": "^1.7.0"
 	}
 }
