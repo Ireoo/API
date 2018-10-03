@@ -19,19 +19,24 @@ router.use((req, res, next) => {
 			data: "没有设置应用验证密钥!"
 		});
 
-	req.mongodb
-		.set("app")
-		.findOne({ secret }, {})
-		.then(data => {
-			if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
-			console.log("[ app ] ->", data);
-			req.app = data;
-			next();
-		})
-		.catch(data => {
-			res.send({
-				success: false,
-				data
+	if (secret === process.env.SECRET) {
+		req.app = secret;
+		next();
+	} else {
+		req.api
+			.set("app")
+			.findOne({ secret }, {})
+			.then(data => {
+				if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
+				console.log("[ app ] ->", data);
+				req.app = data._id;
+				next();
+			})
+			.catch(data => {
+				res.send({
+					success: false,
+					data
+				});
 			});
-		});
+	}
 });

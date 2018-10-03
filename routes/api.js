@@ -1,21 +1,5 @@
 const router = require("express").Router();
-
-/**
- * 初始化颜色主题
- */
-const colors = require("colors");
-colors.setTheme({
-	silly: "rainbow",
-	input: "grey",
-	verbose: "cyan",
-	prompt: "grey",
-	info: "green",
-	data: "blue",
-	help: "cyan",
-	warn: "yellow",
-	debug: "blue",
-	error: "red"
-});
+const MongoDB = require("../lib/database");
 
 exports = module.exports = router;
 
@@ -23,37 +7,55 @@ router.auth = true;
 router.path = "/";
 
 router.all("/:table/:mode", (req, res, next) => {
-	console.log(req.params, req.query, req.data);
+	// console.log(req.params, req.query, req.data);
 	// return res.send({
 	//     params: req.params,
 	//     body: req.body,
 	//     query: req.query,
-	//     data: req.data
+	//     data: req
 	// });
-
-	/**
-	 * 切换到 {req.params.key} 数据表
-	 */
-	// let db = eval("req.mongodb." + req.params.table);
-	let db = req.mongodb.set(req.params.table);
 
 	/**
 	 * 格式化数据流数据为JSON格式
 	 * @type {{}}
 	 */
-	let input = req.data;
+	let input = req;
+
+	/**
+	 * 切换到 {req.params.key} 数据表
+	 */
+	let db = req.api.set(req.params.table),
+		admin = false;
+
+	switch (req.app) {
+		case process.env.SECRET || "":
+			let app = req.header("App") || req.header("app") || input.app;
+			if (app && app !== "")
+				db = new MongoDB(`${process.env.MONGODB_URI}/${app}?${process.env.MONGODB_OTHER}`).set(
+					req.params.table
+				);
+			admin = true;
+			break;
+
+		default:
+			db = new MongoDB(`${process.env.MONGODB_URI}/${req.app}?${process.env.MONGODB_OTHER}`).set(
+				req.params.table
+			);
+			admin = false;
+			break;
+	}
 
 	/**
 	 * 调试输出获取的数据流信息
 	 */
-	console.log("[input]  --> ".info + JSON.stringify(input).input);
+	console.log("[input]  --> " + JSON.stringify(input));
 
 	/**
 	 * 格式化数据流里各项参数where, data, other为JSON格式
 	 * @type {{}}
 	 */
 	let where = JSON.stringify(input.where) === "[]" || !input.where ? {} : input.where;
-	let data = JSON.stringify(input.data) === "[]" || !input.data ? {} : input.data;
+	let data = JSON.stringify(input) === "[]" || !input ? {} : input;
 	let other = JSON.stringify(input.other) === "[]" || !input.other ? {} : input.other;
 
 	if (where.hasOwnProperty("_id") && where._id !== "") {
@@ -64,23 +66,29 @@ router.all("/:table/:mode", (req, res, next) => {
 	let sort, show, skip, limit, dis;
 
 	/**
+	 * 定义是否可以使用
+	 */
+	let mode = req.params.mode;
+	if (!admin && mode === "run") mode = "none";
+
+	/**
 	 * 主体程序入口处
 	 */
-	switch (req.params.mode) {
+	switch (mode) {
 		/**
 		 * 自定义运行命令
 		 */
 		case "run":
 			db.run(input.run)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -94,14 +102,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "listCollections":
 			db.listCollections()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -115,14 +123,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "getCollectionNames":
 			db.getCollectionNames()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -136,14 +144,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "dropDatabase":
 			db.dropDatabase()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -157,14 +165,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "insert":
 			db.insert(data)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -183,14 +191,14 @@ router.all("/:table/:mode", (req, res, next) => {
 
 			db.find(where, { sort, show, skip, limit })
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -205,14 +213,14 @@ router.all("/:table/:mode", (req, res, next) => {
 			show = JSON.stringify(other.show) === "[]" || !other.show ? {} : other.show;
 			db.findOne(where, show)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -227,14 +235,14 @@ router.all("/:table/:mode", (req, res, next) => {
 			dis = JSON.stringify(other.distinct) === "[]" || !other.distinct ? "" : other.distinct;
 			db.distinct(dis, where)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -248,14 +256,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "update":
 			db.update(where, data, other)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -269,14 +277,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "remove":
 			db.remove(where)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -290,14 +298,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "drop":
 			db.drop()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -311,14 +319,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "stats":
 			db.stats()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -332,14 +340,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "count":
 			db.count(where)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -353,14 +361,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "createIndex":
 			db.ensureIndex(where, other)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -374,14 +382,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "reIndex":
 			db.reIndex()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -395,14 +403,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "dropIndex":
 			db.dropIndex(where.index)
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -416,14 +424,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "dropIndexes":
 			db.dropIndexes()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -437,14 +445,14 @@ router.all("/:table/:mode", (req, res, next) => {
 		case "getIndexes":
 			db.getIndexes()
 				.then(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).data);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: true,
 						data
 					});
 				})
 				.catch(data => {
-					console.log("[output] --> ".info + JSON.stringify(data).error);
+					console.log("[output] --> " + JSON.stringify(data));
 					res.send({
 						success: false,
 						data
@@ -456,7 +464,7 @@ router.all("/:table/:mode", (req, res, next) => {
 		 * 当不存在该指令时返回404
 		 */
 		default:
-			console.log("[output] --> ".info + ("MODE[" + req.params.mode + "] no find!").error);
+			console.log("[output] --> " + ("MODE[" + req.params.mode + "] no find!"));
 			res.send({
 				success: false,
 				data: `MODE[${req.params.mode}] no found!`

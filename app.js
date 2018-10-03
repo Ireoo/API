@@ -40,13 +40,13 @@ app.use((req, res, next) => {
 	/**
 	 * 获取mongodb数据库参数
 	 */
-	let connect = process.env.MONGODB_URI || process.env.MONGODB || "127.0.0.1/api";
+	let connect = `${process.env.MONGODB_URI}/api?${process.env.MONGODB_OTHER}` || "127.0.0.1/api";
 
 	/**
 	 * 设置mongodb数据库连接
 	 */
 	// req.mongodb = mongojs(connect);
-	req.mongodb = new MongoDB(connect);
+	req.api = new MongoDB(connect);
 	next();
 });
 
