@@ -19,7 +19,7 @@ router.all("/:table/:mode", (req, res, next) => {
 	 * 格式化数据流数据为JSON格式
 	 * @type {{}}
 	 */
-	let input = req;
+	let input = req.data;
 
 	/**
 	 * 切换到 {req.params.key} 数据表
@@ -48,7 +48,7 @@ router.all("/:table/:mode", (req, res, next) => {
 	/**
 	 * 调试输出获取的数据流信息
 	 */
-	console.log("[input]  -->", input);
+	console.log("[input]  --> " + JSON.stringify(input));
 
 	/**
 	 * 格式化数据流里各项参数where, data, other为JSON格式
