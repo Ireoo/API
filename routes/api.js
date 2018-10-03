@@ -55,7 +55,7 @@ router.all("/:table/:mode", (req, res, next) => {
 	 * @type {{}}
 	 */
 	let where = JSON.stringify(input.where) === "[]" || !input.where ? {} : input.where;
-	let data = JSON.stringify(input) === "[]" || !input ? {} : input;
+	let data = JSON.stringify(input.data) === "[]" || !input.data ? {} : input.data;
 	let other = JSON.stringify(input.other) === "[]" || !input.other ? {} : input.other;
 
 	if (where.hasOwnProperty("_id") && where._id !== "") {
