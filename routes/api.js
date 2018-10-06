@@ -30,10 +30,10 @@ router.all("/:table/:mode", (req, res, next) => {
 	switch (req.app) {
 		case process.env.SECRET || "":
 			let app = req.header("App") || req.header("app") || input.app;
-			if (app && app !== "")
-				db = new MongoDB(`${process.env.MONGODB_URI}/${app}?${process.env.MONGODB_OTHER}`).set(
-					req.params.table
-				);
+			if (app && app !== "") {
+				let mongodb_other = process.env.MONGODB_OTHER ? `?${process.env.MONGODB_OTHER}` : "";
+				db = new MongoDB(`${process.env.MONGODB}/${app}${mongodb_other}`).set(req.params.table);
+			}
 			admin = true;
 			break;
 
