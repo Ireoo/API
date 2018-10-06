@@ -6,7 +6,7 @@ exports = module.exports = router;
 router.auth = true;
 router.path = "/";
 
-router.all("/:table/:mode", (req, res, next) => {
+router.all("/:table/:mode", async (req, res, next) => {
 	// console.log(req.params, req.query, req.data);
 	// return res.send({
 	//     params: req.params,
@@ -47,7 +47,7 @@ router.all("/:table/:mode", (req, res, next) => {
 	/**
 	 * 调试输出获取的数据流信息
 	 */
-	console.log("[input]  --> " + JSON.stringify(input));
+	console.log("[input]  -->", input);
 
 	/**
 	 * 格式化数据流里各项参数where, data, other为JSON格式
@@ -70,404 +70,171 @@ router.all("/:table/:mode", (req, res, next) => {
 	let mode = req.params.mode;
 	if (!admin && mode === "run") mode = "none";
 
+	let result;
+
 	/**
 	 * 主体程序入口处
 	 */
-	switch (mode) {
-		/**
-		 * 自定义运行命令
-		 */
-		case "run":
-			db.run(input.run)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+	try {
+		switch (mode) {
+			/**
+			 * 自定义运行命令
+			 */
+			case "run":
+				result = await db.run(input.run);
+				break;
 
-		/**
-		 * 获取数据表列表
-		 */
-		case "listCollections":
-			db.listCollections()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 获取数据表列表
+			 */
+			case "listCollections":
+				result = await db.listCollections();
+				break;
 
-		/**
-		 * 获取数据表名称
-		 */
-		case "getCollectionNames":
-			db.getCollectionNames()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 获取数据表名称
+			 */
+			case "getCollectionNames":
+				result = await db.getCollectionNames();
+				break;
 
-		/**
-		 * 删除数据库
-		 */
-		case "dropDatabase":
-			db.dropDatabase()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 删除数据库
+			 */
+			case "dropDatabase":
+				result = await db.dropDatabase();
+				break;
 
-		/**
-		 * 执行插入命令
-		 */
-		case "insert":
-			db.insert(data)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 执行插入命令
+			 */
+			case "insert":
+				result = await db.insert(data);
+				break;
 
-		/**
-		 * 执行查找命令
-		 */
-		case "find":
-			sort = JSON.stringify(other.sort) === "[]" || !other.sort ? {} : other.sort;
-			show = JSON.stringify(other.show) === "[]" || !other.show ? {} : other.show;
-			skip = other.skip || 0;
-			limit = other.limit || 20;
+			/**
+			 * 执行查找命令
+			 */
+			case "find":
+				sort = JSON.stringify(other.sort) === "[]" || !other.sort ? {} : other.sort;
+				show = JSON.stringify(other.show) === "[]" || !other.show ? {} : other.show;
+				skip = other.skip || 0;
+				limit = other.limit || 20;
 
-			db.find(where, { sort, show, skip, limit })
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+				result = await db.find(where, { sort, show, skip, limit });
+				break;
 
-		/**
-		 * 执行查找一条数据命令
-		 */
-		case "findone":
-			show = JSON.stringify(other.show) === "[]" || !other.show ? {} : other.show;
-			db.findOne(where, show)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 执行查找一条数据命令
+			 */
+			case "once":
+				show = JSON.stringify(other.show) === "[]" || !other.show ? {} : other.show;
+				result = await db.findOne(where, show);
+				break;
 
-		/**
-		 * 执行聚合查询命令
-		 */
-		case "distinct":
-			dis = JSON.stringify(other.distinct) === "[]" || !other.distinct ? "" : other.distinct;
-			db.distinct(dis, where)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 执行聚合查询命令
+			 */
+			case "distinct":
+				dis = JSON.stringify(other.distinct) === "[]" || !other.distinct ? "" : other.distinct;
+				result = await db.distinct(dis, where);
+				break;
 
-		/**
-		 * 执行修改数据命令
-		 */
-		case "update":
-			db.update(where, data, other)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 执行修改数据命令
+			 */
+			case "update":
+				result = await db.update(where, data, other);
+				break;
 
-		/**
-		 * 执行删除命令
-		 */
-		case "remove":
-			db.remove(where)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 执行删除命令
+			 */
+			case "remove":
+				result = await db.remove(where);
+				break;
 
-		/**
-		 * 删除该数据库
-		 */
-		case "drop":
-			db.drop()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 删除该数据库
+			 */
+			case "drop":
+				result = await db.drop();
+				break;
 
-		/**
-		 * 获取该表状态信息
-		 */
-		case "stats":
-			db.stats()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 获取该表状态信息
+			 */
+			case "stats":
+				result = await db.stats();
+				break;
 
-		/**
-		 * 获取指定条件下数据量
-		 */
-		case "count":
-			db.count(where)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 获取指定条件下数据量
+			 */
+			case "count":
+				result = await db.count(where);
+				break;
 
-		/**
-		 * 创建索引
-		 */
-		case "createIndex":
-			db.ensureIndex(where, other)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 创建索引
+			 */
+			case "createIndex":
+				result = await db.ensureIndex(where, other);
+				break;
 
-		/**
-		 * 重建索引
-		 */
-		case "reIndex":
-			db.reIndex()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 重建索引
+			 */
+			case "reIndex":
+				result = await db.reIndex();
+				break;
 
-		/**
-		 * 删除指定索引
-		 */
-		case "dropIndex":
-			db.dropIndex(where.index)
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 删除指定索引
+			 */
+			case "dropIndex":
+				result = await db.dropIndex(where.index);
+				break;
 
-		/**
-		 * 删除全部索引
-		 */
-		case "dropIndexes":
-			db.dropIndexes()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 删除全部索引
+			 */
+			case "dropIndexes":
+				result = await db.dropIndexes();
+				break;
 
-		/**
-		 * 获取索引信息
-		 */
-		case "getIndexes":
-			db.getIndexes()
-				.then(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: true,
-						data
-					});
-				})
-				.catch(data => {
-					console.log("[output] --> " + JSON.stringify(data));
-					res.send({
-						success: false,
-						data
-					});
-				});
-			break;
+			/**
+			 * 获取索引信息
+			 */
+			case "getIndexes":
+				result = await db.getIndexes();
+				break;
 
-		/**
-		 * 当不存在该指令时返回404
-		 */
-		default:
-			console.log("[output] --> " + ("MODE[" + req.params.mode + "] no find!"));
-			res.send({
-				success: false,
-				data: `MODE[${req.params.mode}] no found!`
-			});
-			break;
+			/**
+			 * 当不存在该指令时返回404
+			 */
+			default:
+				result = {
+					success: false,
+					data: `MODE[${req.params.mode}] no found!`
+				};
+				break;
+		}
+
+		db.close();
+
+		console.log("[output] -->", result);
+		res.send({
+			success: true,
+			data: result
+		});
+	} catch (e) {
+		db.close();
+
+		console.log("[error]  -->", e.message);
+		res.send({
+			success: true,
+			data: e.message
+		});
 	}
 });
