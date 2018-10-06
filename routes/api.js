@@ -38,9 +38,8 @@ router.all("/:table/:mode", (req, res, next) => {
 			break;
 
 		default:
-			db = new MongoDB(`${process.env.MONGODB_URI}/${req.app}?${process.env.MONGODB_OTHER}`).set(
-				req.params.table
-			);
+			let mongodb_other = process.env.MONGODB_OTHER ? `?${process.env.MONGODB_OTHER}` : "";
+			db = new MongoDB(`${process.env.MONGODB_URI}/${req.app}${mongodb_other}`).set(req.params.table);
 			admin = false;
 			break;
 	}
