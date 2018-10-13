@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const MongoDB = require("../lib/database");
+const mongojs = require("mongojs");
 
 exports = module.exports = router;
 
@@ -121,7 +122,12 @@ router.all("/:table/:mode", async (req, res, next) => {
 				skip = other.skip || 0;
 				limit = other.limit || 20;
 
-				result = await db.find(where, { sort, show, skip, limit });
+				result = await db.find(where, {
+					sort,
+					show,
+					skip,
+					limit
+				});
 				break;
 
 			/**
