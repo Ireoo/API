@@ -30,8 +30,6 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization");
 
-    console.log(req.method);
-
     if (req.method === "OPTIONS") {
         res.status(200).send(null);
     } else {
