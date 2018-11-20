@@ -13,7 +13,7 @@ const MongoDB = require("./lib/database");
  */
 app.use(
 	morgan(
-		'[:date[web]] :remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'
+		'[:date[web]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'
 	)
 );
 
