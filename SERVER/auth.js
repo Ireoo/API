@@ -24,7 +24,7 @@ router.use((req, res, next) => {
 		next();
 	} else {
 		req.api
-			.set("app")
+			.set("apps")
 			.findOne({ secret }, {})
 			.then(data => {
 				if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
