@@ -1,12 +1,15 @@
 /**
  * Created by S2 on 15/7/7.
  */
+const fs = require("fs");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const compression = require("compression");
 // const mongojs = require("./lib/mongojs");
 const MongoDB = require("./lib/database");
+
+if (!fs.existsSync("./config.js")) fs.copyFileSync("./config.bak.js", "./config.js");
 const config = require("./config");
 
 /**
