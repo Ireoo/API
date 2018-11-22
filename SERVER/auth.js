@@ -26,10 +26,15 @@ router.use((req, res, next) => {
 	} else {
 		req.api
 			.set("apps")
-			.findOne({ secret }, {})
+			.findOne(
+				{
+					secret
+				},
+				{}
+			)
 			.then(data => {
-				if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
 				console.log("[ app ] ->", data);
+				if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
 				req.app = data._id;
 				next();
 			})
