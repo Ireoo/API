@@ -1,7 +1,7 @@
 {
 	"name": "api",
 	"description": "mongodb api basic with nodejs",
-	"version": "1.0.2",
+	"version": "1.0.0",
 	"main": "app.js",
 	"scripts": {
 		"init": "npm run mongodb && npm run pm2 && npm run certs",
@@ -13,7 +13,6 @@
 		"precerts:install": "service nginx stop",
 		"certs:install": "letsencrypt certonly --standalone --agree-tos --email s@ireoo.com -d api.qiyi.io",
 		"postcerts:install": "service nginx start",
-		"precerts:nginx": "npm run write",
 		"certs:nginx": "apt update && apt upgrade -y && apt install nginx -y && cp ./nginx/api.conf /etc/nginx/conf.d/api.conf && nginx -s reload",
 		"certs:renew": "echo '* 5 * * * service nginx stop & letsencrypt renew & service nginx start' >> /etc/crontab",
 		"pm2": "npm run pm2:install && npm run pm2:start && npm run pm2:startup",
@@ -28,10 +27,7 @@
 		"start": "node app.js",
 		"test": "nodemon -e .js app.js",
 		"reload": "git checkout -- .",
-		"precommit": "node ./lib/version.js && lint-staged"
-	},
-	"lint-staged": {
-		"*.{vue,js,json,css}": ["prettier --write", "git add"]
+		"precommit": "pretty-quick --staged"
 	},
 	"private": true,
 	"dependencies": {
@@ -43,8 +39,8 @@
 	},
 	"devDependencies": {
 		"husky": "^0.14.3",
-		"lint-staged": "^8.1.0",
 		"nodemon": "^1.18.3",
-		"prettier": "^1.14.3"
+		"prettier": "^1.14.3",
+		"pretty-quick": "^1.8.0"
 	}
 }
