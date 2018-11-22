@@ -19,7 +19,7 @@
 		"pm2": "npm run pm2:install && npm run pm2:start && npm run pm2:startup",
 		"pm2:install": "npm i -g pm2",
 		"prepm2:start": "cp ./config.js-example ./config.js",
-		"pm2:start": "pm2 start server.js -n API --watch --max-memory-restart 400M",
+		"pm2:start": "pm2 start app.js -n API --watch --max-memory-restart 1024M",
 		"pm2:startup": "pm2 startup && pm2 save",
 		"mongodb": "npm run mongodb:key && npm run mongodb:source && npm run mongodb:install && npm run mongodb:start",
 		"mongodb:key": "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5",
