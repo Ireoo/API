@@ -31,7 +31,7 @@ router.all("/:table/:mode", async (req, res, next) => {
 		admin = false;
 
 	switch (req.app) {
-		case process.env.SECRET || "":
+		case config.SECRET || "":
 			let app = req.header("App") || req.header("app") || input.app;
 			if (app && app !== "") {
 				let mongodb_other = config.MONGODB_OTHER ? `?${config.MONGODB_OTHER}` : "";
