@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const compression = require("compression");
 // const mongojs = require("./lib/mongojs");
 const MongoDB = require("./lib/database");
+const config = require("./config");
 
 /**
  * 显示访问信息
@@ -44,8 +45,8 @@ app.use((req, res, next) => {
 	/**
 	 * 获取mongodb数据库参数
 	 */
-	let mongodb_other = process.env.MONGODB_OTHER ? `?${process.env.MONGODB_OTHER}` : "";
-	let connect = `${process.env.MONGODB}/api${mongodb_other}` || "127.0.0.1/api";
+	let mongodb_other = config.MONGODB_OTHER ? `?${config.MONGODB_OTHER}` : "";
+	let connect = `${config.MONGODB}/api${mongodb_other}` || "127.0.0.1/api";
 
 	/**
 	 * 设置mongodb数据库连接
@@ -96,7 +97,7 @@ app.use("/", require("./SERVER/routes"));
 /**
  * 设置服务器端口默认为80
  */
-const server = app.listen(process.env.PORT || 2018, () => {
+const server = app.listen(config.PORT || 2018, () => {
 	console.log(
 		"Listening on port %s:%d[%s]",
 		server.address().address,

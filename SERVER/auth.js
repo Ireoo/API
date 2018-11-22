@@ -4,6 +4,7 @@ const path = require("path");
 const express = require("express");
 const router = express.Router();
 const md5 = require("md5");
+const config = require("../config");
 
 exports = module.exports = router;
 
@@ -19,7 +20,7 @@ router.use((req, res, next) => {
 			data: "没有设置应用验证密钥!"
 		});
 
-	if (secret === process.env.SECRET) {
+	if (secret === config.SECRET) {
 		req.app = secret;
 		next();
 	} else {

@@ -1,8 +1,8 @@
 {
-    "env": {
-        "MONGODB": "root:meiyoumima@ddns.wangsiyuan.vip",
-        "MONGODB_OTHER": "authSource=admin",
-        "SECRET": "94f3eee0-218f-41fc-9318-94cf5430fc7f",
-        "PORT": "80"
-    }
+	"env": {
+		"MONGODB": "localhost",
+		"MONGODB_OTHER": "authSource=admin",
+		"SECRET": "94f3eee0-218f-41fc-9318-94cf5430fc7f",
+		"PORT": "80"
+	}
 }

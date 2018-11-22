@@ -2,6 +2,8 @@ const router = require("express").Router();
 const MongoDB = require("../lib/database");
 const mongojs = require("mongojs");
 
+const config = require("../config");
+
 exports = module.exports = router;
 
 router.auth = true;
@@ -32,15 +34,15 @@ router.all("/:table/:mode", async (req, res, next) => {
 		case process.env.SECRET || "":
 			let app = req.header("App") || req.header("app") || input.app;
 			if (app && app !== "") {
-				let mongodb_other = process.env.MONGODB_OTHER ? `?${process.env.MONGODB_OTHER}` : "";
-				db = new MongoDB(`${process.env.MONGODB}/${app}${mongodb_other}`).set(req.params.table);
+				let mongodb_other = config.MONGODB_OTHER ? `?${config.MONGODB_OTHER}` : "";
+				db = new MongoDB(`${config.MONGODB}/${app}${mongodb_other}`).set(req.params.table);
 			}
 			admin = true;
 			break;
 
 		default:
-			let mongodb_other = process.env.MONGODB_OTHER ? `?${process.env.MONGODB_OTHER}` : "";
-			db = new MongoDB(`${process.env.MONGODB}/${req.app}${mongodb_other}`).set(req.params.table);
+			let mongodb_other = config.MONGODB_OTHER ? `?${config.MONGODB_OTHER}` : "";
+			db = new MongoDB(`${config.MONGODB}/${req.app}${mongodb_other}`).set(req.params.table);
 			admin = false;
 			break;
 	}
