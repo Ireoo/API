@@ -1,7 +1,7 @@
 {
 	"name": "api",
 	"description": "mongodb api basic with nodejs",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "app.js",
 	"scripts": {
 		"init": "npm run mongodb && npm run pm2 && npm run certs",
@@ -28,7 +28,10 @@
 		"start": "node app.js",
 		"test": "nodemon -e .js app.js",
 		"reload": "git checkout -- .",
-		"precommit": "pretty-quick --staged"
+		"precommit": "node ./lib/version.js && lint-staged"
+	},
+	"lint-staged": {
+		"*.{vue,js,json,css}": ["prettier --write", "git add"]
 	},
 	"private": true,
 	"dependencies": {
@@ -40,8 +43,8 @@
 	},
 	"devDependencies": {
 		"husky": "^0.14.3",
+		"lint-staged": "^8.1.0",
 		"nodemon": "^1.18.3",
-		"prettier": "^1.14.3",
-		"pretty-quick": "^1.7.0"
+		"prettier": "^1.14.3"
 	}
 }
