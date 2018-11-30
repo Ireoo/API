@@ -34,6 +34,7 @@ router.all("/:table/:mode", async (req, res, next) => {
 		case config.SECRET || "":
 			let app = req.header("App") || req.header("app") || input.app;
 			if (app && app !== "") {
+				db.close();
 				let mongodb_other = config.MONGODB_OTHER ? `?${config.MONGODB_OTHER}` : "";
 				db = new MongoDB(`${config.MONGODB}/${app}${mongodb_other}`).set(req.params.table);
 			}
@@ -41,6 +42,7 @@ router.all("/:table/:mode", async (req, res, next) => {
 			break;
 
 		default:
+			db.close();
 			let mongodb_other = config.MONGODB_OTHER ? `?${config.MONGODB_OTHER}` : "";
 			db = new MongoDB(`${config.MONGODB}/${req.app}${mongodb_other}`).set(req.params.table);
 			admin = false;

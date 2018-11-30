@@ -39,6 +39,7 @@ router.use((req, res, next) => {
 				next();
 			})
 			.catch(data => {
+				req.api.close();
 				res.send({
 					success: false,
 					data
