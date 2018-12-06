@@ -14,10 +14,12 @@ sed -i 's//var/log/mongodb//home/MongoDB/log/g' /etc/mongod.conf
 sudo service mongod start
 sudo systemctl enable mongod
 
-mongo
+MONGODB = "mongo"
+$MONGODB << EOF
 use admin
 db.createUser({user: "root", pwd: "meiyoumeima", roles: [{role: "root", db: "admin"}]})
 exit
+EOF
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 sed -i 's/#security:/security:\r\n  authorization: enabled/g' /etc/mongod.conf
