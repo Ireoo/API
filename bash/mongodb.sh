@@ -16,9 +16,9 @@ sudo systemctl enable mongod
 
 MONGODB = "mongo"
 $MONGODB << EOF
-use admin
-db.createUser({user: "root", pwd: "meiyoumeima", roles: [{role: "root", db: "admin"}]})
-exit
+use admin;
+db.createUser({user: "root", pwd: "meiyoumeima", roles: [{role: "root", db: "admin"}]});
+exit;
 EOF
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
