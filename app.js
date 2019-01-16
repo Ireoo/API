@@ -107,6 +107,11 @@ const server = app.listen(config.PORT || 2018, () => {
 		server.address().port,
 		server.address().family
 	);
+	console.log(
+		"Contented MONGODB:",
+		config.MONGODB,
+		config.MONGODB_OTHER
+	);
 });
 
 /**
