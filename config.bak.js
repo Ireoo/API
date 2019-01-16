@@ -1,5 +1,6 @@
-const MONGO = process.env.MONGO_PORT_27017_TCP_ADDR ? `${process.env.MONGO_ENV_MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_ENV_MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGO_PORT_27017_TCP_ADDR}:${process.env.MONGO_PORT_27017_TCP_PORT}` : NULL
-if(MONGO) let OTHER = "authSource=admin"
+const MONGO = process.env.MONGO_PORT_27017_TCP_ADDR ? `${process.env.MONGO_ENV_MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_ENV_MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGO_PORT_27017_TCP_ADDR}:${process.env.MONGO_PORT_27017_TCP_PORT}` : ""
+let OTHER = ""
+if(MONGO) OTHER = "authSource=admin"
 
 exports = module.exports = {
 	MONGODB: MONGO || process.env.MONGODB || "localhost",
