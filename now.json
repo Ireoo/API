@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "env": {
         "MONGODB": "root:meiyoumima@cluster0-shard-00-00-sboze.mongodb.net:27017,cluster0-shard-00-01-sboze.mongodb.net:27017,cluster0-shard-00-02-sboze.mongodb.net:27017",
         "MONGODB_OTHER": "authSource=admin&authMechanism=SCRAM-SHA-1&ssl=true&replicaSet=Cluster0-shard-0&retryWrites=true",
