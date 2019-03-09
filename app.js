@@ -2,6 +2,7 @@
  * Created by S2 on 15/7/7.
  */
 const fs = require("fs");
+const path = require("path");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
@@ -9,8 +10,12 @@ const compression = require("compression");
 // const mongojs = require("./lib/mongojs");
 const MongoDB = require("./lib/database");
 
-if (!fs.existsSync("./config.js")) fs.copyFileSync("./config.bak.js", "./config.js");
-const config = require("./config");
+if (!fs.existsSync(path.join(process.cwd(), "config.js"))) {
+    // fs.copyFileSync(path.join(__dirname, "config.bak.js"), path.join(process.cwd(), "config.js"));
+    let c = fs.readFileSync(path.join(__dirname, "config.bak.js"), 'utf8')
+    fs.writeFileSync(path.join(process.cwd(), "config.js"), c)
+}
+const config = require(path.join(process.cwd(), "config.js"));
 
 /**
  * 显示访问信息
@@ -29,7 +34,7 @@ app.use(compression());
 /**
  * 静态文件目录
  */
-app.use(express.static('dist'))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 /**
  * 允许跨域访问
