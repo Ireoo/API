@@ -4,7 +4,7 @@ const path = require("path");
 const express = require("express");
 const router = express.Router();
 const md5 = require("md5");
-const config = require("../config");
+const config = require(path.join(process.cwd(), "config.js"));
 
 exports = module.exports = router;
 
