@@ -8,14 +8,14 @@ sudo mkdir /home/MongoDB
 sudo mkdir /home/MongoDB/log
 sudo chown mongodb:mongodb -R /home/MongoDB
 
-sudo sed -i 's//var/lib/mongodb//home/MongoDB/g' /etc/mongod.conf
-sudo sed -i 's//var/log/mongodb//home/MongoDB/log/g' /etc/mongod.conf
+sudo sed -i 's/\/var\/lib\/mongodb/\/home\/MongoDB/g' /etc/mongod.conf
+sudo sed -i 's/\/var\/log\/mongodb/\/home\/MongoDB\/log/g' /etc/mongod.conf
 
 sudo service mongod start
 sudo systemctl enable mongod
 
-MONGODB = "mongo"
-$MONGODB << EOF
+# MONGODB = "mongo"
+mongo << EOF
 use admin;
 db.createUser({user: "root", pwd: "meiyoumeima", roles: [{role: "root", db: "admin"}]});
 exit;
