@@ -1,39 +1,40 @@
 {
-	"name": "api",
-	"description": "mongodb api basic with nodejs",
-	"version": "1.0.0",
-	"main": "app.js",
-	"scripts": {
-		"start": "node app.js",
-		"test": "nodemon -e .js app.js",
-		"test:vue": "cd vue && npm run dev",
-		"reload": "git checkout -- .",
-		"precommit": "pretty-quick --staged",
-		"postinstall": "cd vue && npm i",
-		"build": "cd vue && npm run build && cd .. && npm run build:pkg",
-		"build:pkg": "pkg . -t node10 -d --out-dir ./build/",
-		"deloy": "now --public && now alias"
-	},
-	"bin": {
-		"mian": "app.js"
-	},
-	"pkg": {
-		"scripts": ["routes/**/*"],
-		"assets": ["dist/**/*", "config.bak.js"]
-	},
-	"private": true,
-	"dependencies": {
-		"compression": "^1.7.3",
-		"express": "^4.16.3",
-		"md5": "^2.2.1",
-		"mongojs": "^2.6.0",
-		"morgan": "^1.9.0"
-	},
-	"devDependencies": {
-		"husky": "^0.14.3",
-		"nodemon": "^1.18.3",
-		"pkg": "^4.3.7",
-		"prettier": "^1.14.3",
-		"pretty-quick": "^1.8.0"
-	}
+    "name": "api",
+    "description": "mongodb api basic with nodejs",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "nodemon -e .js app.js",
+        "test:vue": "cd vue && npm run dev",
+        "reload": "git checkout -- .",
+        "precommit": "pretty-quick --staged",
+        "postinstall": "cd vue && npm i",
+        "build": "npm run build:vue && npm run build:pkg",
+        "build:vue": "cd vue && npm i && npm run build",
+        "build:pkg": "pkg . -t node10 -d --out-dir ./build/",
+        "deloy": "now --public && now alias"
+    },
+    "bin": {
+        "mian": "app.js"
+    },
+    "pkg": {
+        "scripts": ["routes/**/*"],
+        "assets": ["dist/**/*", "config.bak.js"]
+    },
+    "private": true,
+    "dependencies": {
+        "compression": "^1.7.3",
+        "express": "^4.16.3",
+        "md5": "^2.2.1",
+        "mongojs": "^2.6.0",
+        "morgan": "^1.9.0"
+    },
+    "devDependencies": {
+        "husky": "^0.14.3",
+        "nodemon": "^1.18.3",
+        "pkg": "^4.3.7",
+        "prettier": "^1.14.3",
+        "pretty-quick": "^1.8.0"
+    }
 }
