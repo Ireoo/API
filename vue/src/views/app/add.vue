@@ -68,7 +68,7 @@ export default {
                 `添加应用 ${form.title} 成功!`
               );
               this.loading = false;
-              this.$router.push({ path: "/app" })
+              this.$router.push({ path: "/apps" })
             })
             .catch(e => {
               this.$message.error(e);

@@ -22,7 +22,7 @@
           <el-table :data="appsShow" border v-loading="loading" style="width: 100%">
             <el-table-column prop="title" label="名称">
               <template slot-scope="scope">
-                <router-link :to="`/item/${scope.row._id}`">{{scope.row.title}}</router-link>
+                <router-link :to="`/app/info/${scope.row._id}`">{{scope.row.title}}</router-link>
               </template>
             </el-table-column>
             <el-table-column prop="_id" label="APP id"></el-table-column>
@@ -61,7 +61,7 @@
           <el-card shadow="hover">
             <div slot="header" class="clearfix">
               <span>
-                <router-link :to="`/app/${app._id}`">{{app.title}}</router-link>
+                <router-link :to="`/app/info/${app._id}`">{{app.title}}</router-link>
               </span>
               <span class="desc m5">( ID: {{app._id}} )</span>
               <el-button
