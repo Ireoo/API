@@ -23,3 +23,5 @@ services:
     restart: always
     environment:
       PORT: 80
+      MONGODB: root:meiyoumima@db:27017
+      MONGODB_OTHER: authSource=admin&authMechanism=SCRAM-SHA-1&ssl=false
