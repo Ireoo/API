@@ -13,6 +13,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: meiyoumima
 
   api:
+    links:
+      - db
     depends_on:
       - db
     image: ireoo/api:latest
