@@ -42,9 +42,9 @@ services:
       - /home/DATA/proxy/html:/usr/share/nginx/html
     restart: always
 
-  nginx-letsencrypt:
+  nginxLetsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:latest
     volumes_from:
-      - container:nginxProxy
+      - nginxProxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
