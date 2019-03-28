@@ -45,9 +45,9 @@ services:
 	nginx-letsencrypt:
 		image: jrcs/letsencrypt-nginx-proxy-companion:latest
 		volumes:
-		  - /var/run/docker.sock:/tmp/docker.sock
-		  - /home/DATA/proxy/html:/usr/share/nginx/html
-		  - /var/run/docker.sock:/var/run/docker.sock
-		  - /home/DATA/proxy/certs:/etc/nginx/certs
-		  - /home/DATA/proxy/dhparam:/etc/nginx/dhparam
-		  - /home/DATA/proxy/vhost.d:/etc/nginx/vhost.d
+			- /var/run/docker.sock:/tmp/docker.sock
+			- /home/DATA/proxy/html:/usr/share/nginx/html
+			- /var/run/docker.sock:/var/run/docker.sock
+			- /home/DATA/proxy/certs:/etc/nginx/certs
+			- /home/DATA/proxy/dhparam:/etc/nginx/dhparam
+			- /home/DATA/proxy/vhost.d:/etc/nginx/vhost.d
