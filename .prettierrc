@@ -1,7 +1,7 @@
 {
     "tabWidth": 4,
     "useTabs": true,
-    "parser": "babylon",
+    "parser": "babel",
     "trailingComma": "none",
     "jsxBracketSameLine": true,
     "semi": true,
@@ -19,6 +19,13 @@
             "files": "*.{css,sass,scss,less}",
             "options": {
                 "parser": "css",
+                "tabWidth": 4
+            }
+        },
+        {
+            "files": "*.{yml, yaml}",
+            "options": {
+                "parser": "yaml",
                 "tabWidth": 4
             }
         },

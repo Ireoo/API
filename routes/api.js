@@ -54,7 +54,7 @@ router.all("/:table/:mode", async (req, res, next) => {
 	/**
 	 * 调试输出获取的数据流信息
 	 */
-	console.log("[input]  -->", input);
+	// console.log("[input]  -->", input);
 
 	/**
 	 * 格式化数据流里各项参数where, data, other为JSON格式
@@ -241,7 +241,7 @@ router.all("/:table/:mode", async (req, res, next) => {
 
 		db.close();
 
-		console.log("[output] -->", result);
+		// console.log("[output] -->", result);
 		res.send({
 			success: true,
 			data: result

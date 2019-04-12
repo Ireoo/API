@@ -33,7 +33,7 @@ router.use((req, res, next) => {
 				{}
 			)
 			.then(data => {
-				console.log("[ app ] ->", data);
+				// console.log("[ app ] ->", data);
 				if (!data) throw "没有相关应用信息,请确认密钥是否正确!";
 				req.app = data._id;
 				next();
