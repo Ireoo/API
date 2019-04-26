@@ -19,8 +19,13 @@
         "mian": "app.js"
     },
     "pkg": {
-        "scripts": ["routes/**/*"],
-        "assets": ["dist/**/*", "config.bak.js"]
+        "scripts": [
+            "routes/**/*"
+        ],
+        "assets": [
+            "dist/**/*",
+            "config.bak.js"
+        ]
     },
     "private": true,
     "dependencies": {
