@@ -51,7 +51,7 @@
       <ul class="left">
         <li v-if="!$store.state.user.info">
           <router-link to="/home">
-            <i class="iconfont icon-iconset0357 logo"></i>
+            <i class="iconfont icon-shouquanjiekou logo"></i>
             <span>{{collapse ? '' : '爱数据'}}</span>
           </router-link>
         </li>

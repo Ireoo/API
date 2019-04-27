@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style>
-@import url("//at.alicdn.com/t/font_860942_w7mu9zvz5o.css");
+@import url("//at.alicdn.com/t/font_860942_t9hx05aqhhd.css");
 
 * {
   margin: 0;
