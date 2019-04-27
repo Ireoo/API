@@ -6,5 +6,5 @@
         "SECRET": "94f3eee0-218f-41fc-9318-94cf5430fc7f",
         "PORT": "80"
     },
-    "alias": ["api", "api.ireoo.com"]
+    "alias": ["api"]
 }
