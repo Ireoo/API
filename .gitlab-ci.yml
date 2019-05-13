@@ -1,3 +1,5 @@
 build:
   script:
     - docker build -t ireoo/api:latest -f ./docker/Dockerfile .
+    - docker tag ireoo/api:latest reg.qiyi.io/ireoo/api:latest
+    - docker push reg.qiyi.io/ireoo/api:latest
