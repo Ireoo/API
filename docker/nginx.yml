@@ -12,7 +12,10 @@ services:
       mode: replicated
       replicas: 2
     volumes:
-      - /home/DATA/proxy/nginx:/etc/nginx
+      - /home/DATA/proxy/certs:/etc/nginx/certs
+      - /home/DATA/proxy/dhparam:/etc/nginx/dhparam
+      - /home/DATA/proxy/vhost.d:/etc/nginx/vhost.d
+      - /home/DATA/proxy/conf.d:/etc/nginx/conf.d
       - /var/run/docker.sock:/tmp/docker.sock
       - /home/DATA/proxy/html:/usr/share/nginx/html
 
