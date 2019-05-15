@@ -4,7 +4,7 @@ services:
   db:
     image: mongo:latest
     volumes:
-      - MongoDB:/data/db
+      - /home/DATA/MongoDB:/data/db
     ports:
       - "27017:27017"
     networks:
@@ -36,9 +36,6 @@ services:
       VIRTUAL_HOST: test.qiyi.io
       LETSENCRYPT_HOST: test.qiyi.io
       LETSENCRYPT_EMAIL: s@ireoo.com
-
-volumes:
-  MongoDB:
 
 networks:
   proxy:
