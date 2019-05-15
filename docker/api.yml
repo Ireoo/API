@@ -20,6 +20,8 @@ services:
     image: ireoo/api:latest
     ports:
       - 80
+    networks:
+      - nginx_default
     deploy:
       mode: replicated
       replicas: 2
