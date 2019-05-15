@@ -17,3 +17,8 @@ services:
 volumes:
   nginx_data:
   nginx_html:
+
+networks:
+  nginx_default:
+    driver: overlay
+    attachable: true

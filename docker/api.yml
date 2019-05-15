@@ -32,3 +32,8 @@ services:
       VIRTUAL_HOST: api.qiyi.io
       LETSENCRYPT_HOST: api.qiyi.io
       LETSENCRYPT_EMAIL: s@ireoo.com
+
+networks:
+  nginx_default:
+    driver: overlay
+    attachable: true
