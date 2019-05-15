@@ -17,12 +17,11 @@ services:
 
   nginxLetsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:latest
-    volumes_from:
-      - nginxProxy
     deploy:
       mode: replicated
       replicas: 1
     volumes:
+      - nginx_data:/etc/nginx
       - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
