@@ -20,5 +20,5 @@ services:
       - /home/DATA/proxy/html:/usr/share/nginx/html
 
 networks:
-  proxy:
+  ingress:
     external: true
