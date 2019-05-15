@@ -1,22 +1,25 @@
-nginxProxy:
-  image: jwilder/nginx-proxy:latest
-  ports:
-    - "443:443"
-    - "80:80"
-  deploy:
-    mode: replicated
-    replicas: 2
-  volumes:
-    - /home/DATA/proxy/certs:/etc/nginx/certs
-    - /home/DATA/proxy/dhparam:/etc/nginx/dhparam
-    - /home/DATA/proxy/vhost.d:/etc/nginx/vhost.d
-    - /var/run/docker.sock:/tmp/docker.sock
-    - /home/DATA/proxy/html:/usr/share/nginx/html
-  restart: always
+version: "2.2"
 
-nginxLetsencrypt:
-  image: jrcs/letsencrypt-nginx-proxy-companion:latest
-  volumes_from:
-    - nginxProxy
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+services:
+  nginxProxy:
+    image: jwilder/nginx-proxy:latest
+    ports:
+      - "443:443"
+      - "80:80"
+    deploy:
+      mode: replicated
+      replicas: 2
+    volumes:
+      - /home/DATA/proxy/certs:/etc/nginx/certs
+      - /home/DATA/proxy/dhparam:/etc/nginx/dhparam
+      - /home/DATA/proxy/vhost.d:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock
+      - /home/DATA/proxy/html:/usr/share/nginx/html
+    restart: always
+
+  nginxLetsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion:latest
+    volumes_from:
+      - nginxProxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
