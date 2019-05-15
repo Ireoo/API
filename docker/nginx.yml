@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   nginxProxy:
-    image: jwilder/nginx-proxy:latest
+    image: dmp1ce/nginx-proxy-letsencrypt:latest
     ports:
       - "443:443"
       - "80:80"
@@ -13,16 +13,6 @@ services:
       - nginx_data:/etc/nginx
       - /var/run/docker.sock:/tmp/docker.sock
       - nginx_html:/usr/share/nginx/html
-    restart: always
-
-  nginxLetsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion:latest
-    deploy:
-      mode: replicated
-      replicas: 1
-    volumes:
-      - nginx_data:/etc/nginx
-      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   nginx_data:
