@@ -1,0 +1,50 @@
+version: "3.2"
+
+services:
+  db:
+    image: mongo:latest
+    volumes:
+      - /home/DATA/MongoDB:/data/db
+    ports:
+      - "27017:27017"
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: meiyoumima
+
+  api:
+    depends_on:
+      - db
+    image: ireoo/api:latest
+    ports:
+      - 80
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 2
+    environment:
+      PORT: 80
+      MONGODB: root:meiyoumima@db:27017
+      MONGODB_OTHER: authSource=admin&authMechanism=SCRAM-SHA-1&ssl=false
+      VIRTUAL_HOST: test.qiyi.io
+      LETSENCRYPT_HOST: test.qiyi.io
+      LETSENCRYPT_EMAIL: s@ireoo.com
+
+    nginxProxy:
+    image: dmp1ce/nginx-proxy-letsencrypt:latest
+    ports:
+      - "443:443"
+      - "80:80"
+    deploy:
+      mode: replicated
+      replicas: 2
+    volumes:
+      - /home/DATA/proxy/certs:/etc/nginx/certs
+      - /home/DATA/proxy/dhparam:/etc/nginx/dhparam
+      - /home/DATA/proxy/vhost.d:/etc/nginx/vhost.d
+      - /home/DATA/proxy/conf.d:/etc/nginx/conf.d
+      - /var/run/docker.sock:/tmp/docker.sock
+      - /home/DATA/proxy/html:/usr/share/nginx/html
