@@ -18,13 +18,13 @@ services:
       mode: replicated
       replicas: 2
     volumes:
-      - nginx_data:/etc/nginx
+      - nginx_data1:/etc/nginx
       - /var/run/docker.sock:/tmp/docker.sock
-      - nginx_html:/usr/share/nginx/html
+      - nginx_html1:/usr/share/nginx/html
 
 volumes:
-  nginx_data:
-  nginx_html:
+  nginx_data1:
+  nginx_html1:
 
 networks:
   proxy:
