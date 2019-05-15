@@ -12,6 +12,8 @@ services:
         published: 80
         protocol: tcp
         mode: ingress
+    networks:
+      - proxy
     deploy:
       mode: replicated
       replicas: 2
@@ -25,6 +27,5 @@ volumes:
   nginx_html:
 
 networks:
-  nginx_default:
-    driver: overlay
-    attachable: true
+  proxy:
+    external: true

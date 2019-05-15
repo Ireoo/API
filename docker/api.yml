@@ -8,7 +8,7 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - mongo_network
+      - proxy
     deploy:
       restart_policy:
         condition: on-failure
@@ -26,7 +26,7 @@ services:
         protocol: tcp
         mode: ingress
     networks:
-      - mongo_network
+      - proxy
     deploy:
       restart_policy:
         condition: on-failure
@@ -40,5 +40,5 @@ services:
       LETSENCRYPT_EMAIL: s@ireoo.com
 
 networks:
-  mongo_network:
+  proxy:
     external: true
