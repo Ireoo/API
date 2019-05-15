@@ -33,7 +33,7 @@ services:
       LETSENCRYPT_HOST: test.qiyi.io
       LETSENCRYPT_EMAIL: s@ireoo.com
 
-    nginxProxy:
+  nginxProxy:
     image: dmp1ce/nginx-proxy-letsencrypt:latest
     ports:
       - "443:443"
