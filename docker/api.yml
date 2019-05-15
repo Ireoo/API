@@ -8,7 +8,7 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - proxy
+      - ingress
     deploy:
       restart_policy:
         condition: on-failure
@@ -24,7 +24,7 @@ services:
     ports:
       - 80
     networks:
-      - proxy
+      - ingress
     deploy:
       restart_policy:
         condition: on-failure
@@ -38,5 +38,5 @@ services:
       LETSENCRYPT_EMAIL: s@ireoo.com
 
 networks:
-  proxy:
+  ingress:
     external: true

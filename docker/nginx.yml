@@ -7,7 +7,7 @@ services:
       - "443:443"
       - "80:80"
     networks:
-      - proxy
+      - ingress
     deploy:
       mode: replicated
       replicas: 2
@@ -18,10 +18,6 @@ services:
       - /home/DATA/proxy/conf.d:/etc/nginx/conf.d
       - /var/run/docker.sock:/tmp/docker.sock
       - /home/DATA/proxy/html:/usr/share/nginx/html
-
-volumes:
-  nginx_data1:
-  nginx_html1:
 
 networks:
   proxy:
