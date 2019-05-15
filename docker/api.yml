@@ -22,9 +22,7 @@ services:
       - db
     image: ireoo/api:latest
     ports:
-      - published: 80
-        protocol: tcp
-        mode: ingress
+      - 80
     networks:
       - proxy
     deploy:

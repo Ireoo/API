@@ -4,14 +4,8 @@ services:
   nginxProxy:
     image: dmp1ce/nginx-proxy-letsencrypt:latest
     ports:
-      - target: 443
-        published: 443
-        protocol: tcp
-        mode: ingress
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: ingress
+      - "443:443"
+      - "80:80"
     networks:
       - proxy
     deploy:
