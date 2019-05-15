@@ -29,8 +29,8 @@ services:
       PORT: 80
       MONGODB: root:meiyoumima@db:27017
       MONGODB_OTHER: authSource=admin&authMechanism=SCRAM-SHA-1&ssl=false
-      VIRTUAL_HOST: api.qiyi.io
-      LETSENCRYPT_HOST: api.qiyi.io
+      VIRTUAL_HOST: api.ireoo.com
+      LETSENCRYPT_HOST: api.ireoo.com
       LETSENCRYPT_EMAIL: s@ireoo.com
 
 networks:
