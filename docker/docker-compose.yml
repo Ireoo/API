@@ -48,3 +48,12 @@ services:
       - nginxProxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+  portainer:
+    image: portainer/portainer:latest
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /home/DATA/portainer/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
