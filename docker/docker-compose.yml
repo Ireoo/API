@@ -40,6 +40,9 @@ services:
     ports:
       - "443:443"
       - "80:80"
+    deploy:
+      mode: replicated
+      replicas: 2
     volumes:
       - /home/DATA/proxy/certs:/etc/nginx/certs
       - /home/DATA/proxy/dhparam:/etc/nginx/dhparam
