@@ -7,7 +7,7 @@ services:
       - "443:443"
       - "80:80"
     networks:
-      - ingress
+      - proxy
     deploy:
       mode: replicated
       replicas: 2
@@ -20,5 +20,5 @@ services:
       - /home/DATA/proxy/html:/usr/share/nginx/html
 
 networks:
-  ingress:
+  proxy:
     external: true
