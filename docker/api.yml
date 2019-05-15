@@ -10,14 +10,12 @@ services:
     restart: always
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: meiyoumima
 
   api:
-    links:
-      - db
     depends_on:
       - db
     image: ireoo/api:latest
