@@ -7,9 +7,12 @@ services:
       - /home/MongoDB:/data/db
     ports:
       - "27017:27017"
+    networks:
+      - mongo
     deploy:
-      mode: replicated
-      replicas: 1
+      restart_policy:
+        condition: on-failure
+      replicas: 2
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: meiyoumima
@@ -19,21 +22,23 @@ services:
       - db
     image: ireoo/api:latest
     ports:
-      - 80
+      - published: 80
+        protocol: tcp
+        mode: ingress
     networks:
-      - nginx_default
+      - mongo
     deploy:
-      mode: replicated
+      restart_policy:
+        condition: on-failure
       replicas: 2
     environment:
       PORT: 80
       MONGODB: root:meiyoumima@db:27017
       MONGODB_OTHER: authSource=admin&authMechanism=SCRAM-SHA-1&ssl=false
-      VIRTUAL_HOST: api.ireoo.com
-      LETSENCRYPT_HOST: api.ireoo.com
+      VIRTUAL_HOST: test.qiyi.io
+      LETSENCRYPT_HOST: test.qiyi.io
       LETSENCRYPT_EMAIL: s@ireoo.com
 
 networks:
-  nginx_default:
-    driver: overlay
-    attachable: true
+  mongo_network:
+    external: true
