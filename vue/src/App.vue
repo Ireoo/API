@@ -43,7 +43,7 @@ export default {
       uri: "",
       width: document.documentElement.clientWidth,
       mini: document.documentElement.clientWidth < 900,
-      collapse: document.documentElement.clientWidth < 500,
+      collapse: document.documentElement.clientWidth < 700,
       ios: !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
     };
   },
@@ -52,7 +52,16 @@ export default {
     Sider,
     Footer
   },
+  watch: {
+    "$route.meta": {
+      handler: val => {
+        if (val.title) document.title = val.title;
+      },
+      deep: true
+    }
+  },
   mounted() {
+    document.title = this.$route.meta.title;
     window.onresize = () => {
       this.collapse = document.documentElement.clientWidth < 700;
       this.mini = document.documentElement.clientWidth < 900;
@@ -63,7 +72,7 @@ export default {
 </script>
 
 <style>
-@import url("//at.alicdn.com/t/font_860942_t9hx05aqhhd.css");
+@import url("//at.alicdn.com/t/font_860942_fe2o0d3x3rg.css");
 
 * {
   margin: 0;
@@ -118,6 +127,10 @@ export default {
 
 
 <style scoped>
+.el-scrollbar__wrap {
+  margin: 0;
+}
+
 .wrapper {
   position: fixed;
   top: 0;

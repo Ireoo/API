@@ -1,6 +1,6 @@
 <template>
   <el-row v-loading="fullscreenLoading">
-    <el-col v-if="!fullscreenLoading">
+    <el-col>
       <h1>{{app.title}}</h1>
       <div
         class="desc"
@@ -9,15 +9,17 @@
         密钥:
         <b>{{app.secret}}</b>
       </div>
-      <el-card class="box-card main" v-loading="collections.loading">
-        <h2>数据库管理</h2>
-        <div class="desc" v-if="collections.data.length === 0">暂时没有添加任务数据表,请使用接口创建自己的数据吧!</div>
-        <el-card class="box-card" shadow="never" v-if="collections.data.length !== 0">
-          <ul>
+    </el-col>
+    <el-col>
+      <el-tabs :tab-position="collapse ? 'top' : 'left'">
+        <!-- <el-tab-pane label="基础信息"></el-tab-pane> -->
+        <el-tab-pane label="数据表">
+          <div class="desc" v-if="collections.data.length === 0">暂时没有添加任务数据表,请使用接口创建自己的数据吧!</div>
+          <ul v-if="collections.data.length !== 0">
             <li v-for="c in collections.data" :key="c.info.uuid">{{c.name}}</li>
           </ul>
-        </el-card>
-      </el-card>
+        </el-tab-pane>
+      </el-tabs>
     </el-col>
   </el-row>
 </template>
@@ -25,6 +27,8 @@
 <script>
 export default {
   name: "id",
+  title: "应用信息",
+  props: ["collapse"],
   data() {
     return {
       app: {},
@@ -50,6 +54,7 @@ export default {
       .then(data => {
         if (data) {
           this.app = data;
+          document.title = this.app.title;
         } else {
           this.$message.error(`应用不存在!`);
           this.$router.push({ path: "/app" });
@@ -74,7 +79,7 @@ export default {
 h1 {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 h2 {
@@ -85,6 +90,10 @@ h2 {
 
 b {
   color: #4898f8;
+}
+
+.el-col {
+  margin-bottom: 20px;
 }
 
 .desc {

@@ -59,13 +59,13 @@
           :span="!collapse ? 12 : 24"
         >
           <el-card shadow="hover">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="clearfix" style="position: relative;">
               <span>
                 <router-link :to="`/app/info/${app._id}`">{{app.title}}</router-link>
               </span>
               <span class="desc m5">( ID: {{app._id}} )</span>
               <el-button
-                style="float: right; padding: 5px 10px;"
+                style="position: absolute; top: -5px; right: 0;"
                 type
                 size="mini"
                 @click="secret(app)"

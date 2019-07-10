@@ -77,8 +77,9 @@
       <ul class="right" v-if="$store.state.user.info">
         <li>
           <router-link to="/info">
-            <el-badge :value="120" :max="99" class="item">
-              <i class="iconfont icon-icon tongzhi"></i>
+            <i class="iconfont icon-icon" v-if="infos === 0"></i>
+            <el-badge is-dot class="item" v-if="infos > 0">
+              <i class="iconfont icon-icon"></i>
             </el-badge>
           </router-link>
         </li>
@@ -105,7 +106,7 @@
           </router-link>-->
           <el-dropdown trigger="click" @command="routerGo">
             <span class="el-dropdown-link">
-              <img src>
+              <img src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -122,7 +123,7 @@
 					</router-link>
         </li>-->
       </ul>
-      <br>
+      <br />
     </el-col>
   </el-row>
 </template>
@@ -144,7 +145,8 @@ export default {
   data() {
     return {
       isCollapse: false,
-      show: ["App"]
+      show: ["App"],
+      infos: 0
     };
   },
   computed: {
@@ -197,7 +199,7 @@ a span {
 
 a i {
   color: #ccc;
-  font-size: 30px;
+  font-size: 32px;
   display: table-cell;
   vertical-align: middle;
   line-height: 40px;
@@ -216,10 +218,10 @@ a i {
 .el-dropdown-link img {
   float: left;
   background: #ccc;
-  width: 30px;
-  height: 30px;
+  width: 23px;
+  height: 23px;
   border-radius: 5px;
-  margin: 5px 0;
+  margin: 8px 0 5px 0;
   overflow: hidden;
   display: table-cell;
   vertical-align: middle;
@@ -271,7 +273,7 @@ a.router-link-active i.logo {
 }
 
 .iconfont {
-  color: #999;
+  color: #c0c4cc;
 }
 
 ul.left {
@@ -288,8 +290,12 @@ ul.right {
   float: right;
 }
 
-ul.right li {
+/* ul.right li:nth-child(2) {
   padding-left: 30px;
+} */
+
+ul.right li {
+  padding-left: 10px;
 }
 
 ul.right.no li {
@@ -302,6 +308,21 @@ ul.right li {
   /* line-height: 60px; */
   display: table-cell;
   vertical-align: middle;
+}
+
+ul.right li:nth-child(1) a {
+  position: relative;
+  width: 24px;
+}
+
+ul.right li:nth-child(1) a > i {
+  position: absolute;
+  top: 8px;
+}
+
+ul.right li:nth-child(1) a > div > i {
+  position: absolute;
+  top: -4px;
 }
 
 menu__item:focus,
