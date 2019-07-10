@@ -315,6 +315,11 @@ ul.right li:nth-child(1) a {
   width: 24px;
 }
 
+ul.right.no li:nth-child(1) a {
+  position: unset;
+  width: auto;
+}
+
 ul.right li:nth-child(1) a > i {
   position: absolute;
   top: 8px;
