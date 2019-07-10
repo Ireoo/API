@@ -55,13 +55,14 @@ export default {
   watch: {
     "$route.meta": {
       handler: val => {
+        console.log(val);
         if (val.title) document.title = val.title;
       },
       deep: true
     }
   },
   mounted() {
-    document.title = this.$route.meta.title;
+    if (this.$route.meta.title) document.title = this.$route.meta.title;
     window.onresize = () => {
       this.collapse = document.documentElement.clientWidth < 700;
       this.mini = document.documentElement.clientWidth < 900;
