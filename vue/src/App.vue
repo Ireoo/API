@@ -54,7 +54,7 @@ export default {
   },
   watch: {
     "$route.meta": {
-      handler: val => {
+      handler: function (val) {
         this.console(val);
         if (val.title) document.title = val.title;
       },
