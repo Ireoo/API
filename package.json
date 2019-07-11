@@ -8,12 +8,18 @@
         "test": "nodemon -e .js app.js",
         "test:vue": "cd vue && npm run dev",
         "reload": "git checkout -- .",
-        "precommit": "pretty-quick --staged",
+        "precommit": "lint-staged",
         "postinstall": "cd vue && npm i",
         "build": "npm run build:vue && npm run build:pkg",
         "build:vue": "cd vue && npm i && npm run build",
         "build:pkg": "pkg . -t node10 -d --out-dir ./build/",
         "deloy": "now --public && now alias"
+    },
+    "lint-staged": {
+        "*.{vue,js,json,css,md}": [
+            "prettier --write",
+            "git add"
+        ]
     },
     "bin": {
         "mian": "app.js"
@@ -37,9 +43,10 @@
     },
     "devDependencies": {
         "husky": "^0.14.3",
+        "lint-staged": "^9.2.0",
         "nodemon": "^1.18.3",
         "pkg": "^4.3.7",
-        "prettier": "^1.14.3",
+        "prettier": "^1.18.2",
         "pretty-quick": "^1.8.0"
     }
 }

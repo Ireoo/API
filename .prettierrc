@@ -1,5 +1,5 @@
 {
-    "tabWidth": 4,
+    "tabWidth": 2,
     "useTabs": true,
     "parser": "babel",
     "trailingComma": "none",
@@ -19,7 +19,14 @@
             "files": "*.{css,sass,scss,less}",
             "options": {
                 "parser": "css",
-                "tabWidth": 4
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": "*.vue",
+            "options": {
+                "parser": "vue",
+                "tabWidth": 2
             }
         },
         {
