@@ -8,7 +8,7 @@
                         <el-input
                                 :autofocus="true"
                                 @focus="focus.username=true"
-                                @blur="focus.username=form.username==''?false:true"
+                                @blur="focus.username=form.username===''?false:true"
                                 :placeholder="focus.username?placeholder.username:''"
                                 v-model="form.username"
                                 :disabled="loading"
@@ -22,7 +22,7 @@
                         <el-input
                                 show-password
                                 @focus="focus.password=true"
-                                @blur="focus.password=form.password==''?false:true"
+                                @blur="focus.password=form.password===''?false:true"
                                 :placeholder="focus.password?placeholder.password:''"
                                 v-model="form.password"
                                 :disabled="loading"
