@@ -1,24 +1,32 @@
 <template>
   <el-row v-loading="fullscreenLoading">
     <el-col>
-      <h1>{{app.title}}</h1>
-      <div
-        class="desc"
-      >创建于: {{$time(app.createTime).format("YYYY-MM-DD")}} 最后更新: {{$time(app.updateTime).format("YYYY-MM-DD")}}</div>
+      <h1>{{ app.title }}</h1>
+      <div class="desc">
+        创建于: {{ $time(app.createTime).format("YYYY-MM-DD") }} 最后更新:
+        {{ $time(app.updateTime).format("YYYY-MM-DD") }}
+      </div>
       <div class="desc">
         密钥:
-        <b>{{app.secret}}</b>
+        <b>{{ app.secret }}</b>
       </div>
     </el-col>
     <el-col>
-      <el-tabs :tab-position="collapse ? 'top' : 'left'">
+      <el-tabs tab-position="top">
+        <!-- <el-tabs :tab-position="collapse ? 'top' : 'left'"> -->
         <!-- <el-tab-pane label="基础信息"></el-tab-pane> -->
         <el-tab-pane label="数据表">
-          <div class="desc" v-if="collections.data.length === 0">暂时没有添加任务数据表,请使用接口创建自己的数据吧!</div>
+          <div class="desc" v-if="collections.data.length === 0">
+            暂时没有添加任务数据表,请使用接口创建自己的数据吧!
+          </div>
           <ul v-if="collections.data.length !== 0">
-            <li v-for="c in collections.data" :key="c.info.uuid">{{c.name}}</li>
+            <li v-for="c in collections.data" :key="c.info.uuid">
+              {{ c.name }}
+            </li>
           </ul>
         </el-tab-pane>
+
+        <el-tab-pane label="监控"> </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-row>
@@ -37,7 +45,7 @@ export default {
     };
   },
   created() {
-    this.fullscreenLoading = true
+    this.fullscreenLoading = true;
     this.console(this.$route.params.id);
     this.$http("apps/once", {
       where: {
@@ -59,18 +67,18 @@ export default {
           this.$message.error(`应用不存在!`);
           this.$router.push({ path: "/app" });
         }
-        this.fullscreenLoading = false
+        this.fullscreenLoading = false;
       })
       .catch(error => {
         this.$message.error(error);
       });
 
-    this.collections = { loading: true, data: [] }
+    this.collections = { loading: true, data: [] };
     this.$http(`all/listCollections`, { app: this.$route.params.id }) //, { app: this.$route.params.id }
       .then(data => {
-        this.console(data)
-        this.collections = { loading: false, data }
-      })
+        this.console(data);
+        this.collections = { loading: false, data };
+      });
   }
 };
 </script>
