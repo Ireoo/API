@@ -1,0 +1,22 @@
+name: CI
+
+on: 
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: [macOS-latest, windows-latest, ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Script
+      uses: actions/checkout@v1
+      with:
+        node-version: 'latest' 
+    - name: build script
+      run: |
+        npm i
+        npm run build
