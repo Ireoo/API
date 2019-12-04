@@ -25,7 +25,7 @@ jobs:
     - name: upload script
       uses: actions/upload-artifact@master
       with:
-        name: API-${{ github.ref }}
+        name: API-MacOS
         path: ./build/
     
     - name: Create Release
@@ -70,7 +70,7 @@ jobs:
     - name: upload script
       uses: actions/upload-artifact@master
       with:
-        name: API-${{ github.ref }}
+        name: API-Windows
         path: ./build/
 
     - name: Create Release
@@ -115,7 +115,7 @@ jobs:
     - name: upload script
       uses: actions/upload-artifact@master
       with:
-        name: API-${{ github.ref }}
+        name: API-Linux
         path: ./build/
 
     - name: Create Release
