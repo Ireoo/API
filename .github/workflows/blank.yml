@@ -12,26 +12,30 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: Install Script
+    - name: install
       uses: actions/checkout@v1
       with:
         node-version: 'latest'
 
-    - name: build script
+    - name: build
       run: |
         npm i
         npm run build
         
-    - name: upload script
+    - name: flie name
+      run: cd build && ls
+        
+    - name: upload
       uses: actions/upload-artifact@master
       with:
         name: API-MacOS
         path: ./build/
     
-    - name: Upload to release
-      uses: JasonEtco/upload-to-release@master
+    - name: release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        args: ./build/
+        files: api-macos
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -43,26 +47,30 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: Install Script
+    - name: install
       uses: actions/checkout@v1
       with:
         node-version: 'latest'
 
-    - name: build script
+    - name: build
       run: |
         npm i
         npm run build
         
-    - name: upload script
+    - name: flie name
+      run: cd build && ls
+        
+    - name: upload
       uses: actions/upload-artifact@master
       with:
         name: API-Windows
         path: ./build/
-
-    - name: Upload to release
-      uses: JasonEtco/upload-to-release@master
+    
+    - name: release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        args: ./build/
+        files: api-windows
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -74,26 +82,30 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: Install Script
+    - name: install
       uses: actions/checkout@v1
       with:
         node-version: 'latest'
 
-    - name: build script
+    - name: build
       run: |
         npm i
         npm run build
         
-    - name: upload script
+    - name: flie name
+      run: cd build && ls
+        
+    - name: upload
       uses: actions/upload-artifact@master
       with:
         name: API-Linux
         path: ./build/
-
-    - name: Upload to release
-      uses: JasonEtco/upload-to-release@master
+    
+    - name: release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        args: ./build/
+        files: api-linux
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
