@@ -29,7 +29,8 @@ jobs:
         path: ./build/
     
     - name: Create Release
-      uses: actions/create-release@v1.0.0
+      id: create_release
+      uses: actions/create-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -74,7 +75,8 @@ jobs:
         path: ./build/
 
     - name: Create Release
-      uses: actions/create-release@v1.0.0
+      id: create_release
+      uses: actions/create-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -119,7 +121,8 @@ jobs:
         path: ./build/
 
     - name: Create Release
-      uses: actions/create-release@v1.0.0
+      id: create_release
+      uses: actions/create-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
