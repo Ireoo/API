@@ -6,9 +6,38 @@ on:
     - master
 
 jobs:
-  build:
+  macos:
+    runs-on: macOS-latest
 
-    runs-on: [macOS-latest, windows-latest, ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Script
+      uses: actions/checkout@v1
+      with:
+        node-version: 'latest' 
+    - name: build script
+      run: |
+        npm i
+        npm run build
+        
+  windows:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Script
+      uses: actions/checkout@v1
+      with:
+        node-version: 'latest' 
+    - name: build script
+      run: |
+        npm i
+        npm run build
+        
+  linux:
+
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
