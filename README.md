@@ -1,4 +1,4 @@
-![](https://github.com/Ireoo/API/workflows/CI/badge.svg)
+![](https://github.com/Ireoo/API/workflows/Release/badge.svg)
 # api.mongodb.nodejs 2.0.0
 
 ## 使用技术
