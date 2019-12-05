@@ -1,93 +1,38 @@
 name: CI
 
-on: 
+on:
   push:
     branches:
-    - master
+      - master
 
 jobs:
   macos:
     runs-on: macOS-latest
-
+    strategy:
+      matrix:
+        node: [12, 13]
+        os: [macOS-latest, ubuntu-latest, windows-latest]
     steps:
-    - name: install
-      uses: actions/checkout@v1
-      with:
-        node-version: 'latest'
+      - name: install
+        uses: actions/checkout@master
+        with:
+          node-version: "latest"
 
-    - name: build
-      run: |
-        npm i
-        npm run build
-        
-    - name: upload
-      uses: actions/upload-artifact@master
-      with:
-        name: API-MacOS
-        path: ./build/
-    
-    - name: release
-      uses: softprops/action-gh-release@v0.1.0
-      with:
-        files: api
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: build
+        run: |
+          npm i
+          npm run build
 
+      - name: upload
+        uses: actions/upload-artifact@master
+        with:
+          name: API-${{matrix.node}}-${{matrix.os}}
+          path: ./build/
 
-  windows:
-
-    runs-on: windows-latest
-
-    steps:
-    - name: install
-      uses: actions/checkout@v1
-      with:
-        node-version: 'latest'
-
-    - name: build
-      run: |
-        npm i
-        npm run build
-        
-    - name: upload
-      uses: actions/upload-artifact@master
-      with:
-        name: API-Windows
-        path: ./build/
-    
-    - name: release
-      uses: softprops/action-gh-release@v0.1.0
-      with:
-        files: build/api.exe
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-  linux:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: install
-      uses: actions/checkout@v1
-      with:
-        node-version: 'latest'
-
-    - name: build
-      run: |
-        npm i
-        npm run build
-        
-    - name: upload
-      uses: actions/upload-artifact@master
-      with:
-        name: API-Linux
-        path: ./build/
-    
-    - name: release
-      uses: softprops/action-gh-release@v0.1.0
-      with:
-        files: api
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: release
+        uses: softprops/action-gh-release@v0.1.0
+        with:
+          name: test-${{matrix.node}}-${{matrix.os}}
+          files: ./build/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
