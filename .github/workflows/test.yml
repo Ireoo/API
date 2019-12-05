@@ -7,12 +7,12 @@ on:
 
 jobs:
   macos:
-    runs-on: ${{matrix.os}}
+    runs-on: macOS-latest
 
-    strategy:
-      matrix:
-        node: [12, 13]
-        os: [macOS-latest, ubuntu-latest, windows-latest]
+    # strategy:
+    #   matrix:
+    #     node: [12, 13]
+    #     os: [macOS-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: install
@@ -28,5 +28,5 @@ jobs:
       - name: upload
         uses: actions/upload-artifact@master
         with:
-          name: API-${{matrix.node}}-${{matrix.os}}
+          name: API
           path: ./build/

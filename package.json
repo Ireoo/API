@@ -12,7 +12,7 @@
 		"postinstall": "cd vue && npm i",
 		"build": "npm run build:vue && npm run build:pkg",
 		"build:vue": "cd vue && npm i && npm run build",
-		"build:pkg": "pkg . -t node12 -d --out-dir ./build/",
+		"build:pkg": "pkg . -t node12-win-x64,node12-linux-x64,node12-macos-x64 -d --out-dir ./build/",
 		"deloy": "now --public && now alias",
 		"help": "pkg --help"
 	},
