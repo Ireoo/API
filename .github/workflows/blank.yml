@@ -10,8 +10,6 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-    - uses: actions/checkout@v1
-    
     - name: install
       uses: actions/checkout@v1
       with:
@@ -41,8 +39,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v1
-    
     - name: install
       uses: actions/checkout@v1
       with:
@@ -72,8 +68,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    
     - name: install
       uses: actions/checkout@v1
       with:
