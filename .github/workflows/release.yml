@@ -31,6 +31,7 @@ jobs:
           path: ./build/
 
       - name: Create Release
+        id: create_release
         uses: actions/create-release@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,6 +42,7 @@ jobs:
           prerelease: false
 
       - name: Upload Release windows
+        id: upload_release_windows
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,6 +53,7 @@ jobs:
           asset_content_type: application/x-executable
 
       - name: Upload Release macos
+        id: upload_release_macos
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,6 +64,7 @@ jobs:
           asset_content_type: application/x-executable
 
       - name: Upload Release linux
+        id: upload_release_linux
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
