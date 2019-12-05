@@ -8,10 +8,12 @@ on:
 jobs:
   macos:
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        node: [12, 13]
-        os: [macOS-latest, ubuntu-latest, windows-latest]
+
+    # strategy:
+    #   matrix:
+    #     node: [12, 13]
+    #     os: [macOS-latest, ubuntu-latest, windows-latest]
+
     steps:
       - name: install
         uses: actions/checkout@master
@@ -26,13 +28,13 @@ jobs:
       - name: upload
         uses: actions/upload-artifact@master
         with:
-          name: API-${{matrix.node}}-${{matrix.os}}
+          name: API
           path: ./build/
 
       - name: release
         uses: softprops/action-gh-release@v0.1.0
         with:
-          name: test-${{matrix.node}}-${{matrix.os}}
+          name: test
           files: ./build/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
