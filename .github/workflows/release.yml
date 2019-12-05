@@ -28,8 +28,6 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v0.1.0
         with:
-          files: |
-            ./build/api.exe
-            ./build/api
+          files: ./build/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
