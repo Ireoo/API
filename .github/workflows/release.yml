@@ -19,6 +19,13 @@ jobs:
         with:
           node-version: "latest"
 
+      - name: get package version
+        id: package
+        uses: Ireoo/get-package@v1
+        with:
+          path: ./package.json
+          key: version
+
       - name: build
         run: |
           npm i
@@ -36,8 +43,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: API-${{ github.sha }}
-          release_name: API Release ${{ github.sha }}
+          tag_name: v${{steps.package.outputs.version}}
+          release_name: "V${{steps.package.outputs.version}}"
           draft: false
           prerelease: false
 
