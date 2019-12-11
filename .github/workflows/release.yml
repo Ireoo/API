@@ -6,18 +6,58 @@ on:
 
 jobs:
   release:
-    runs-on: macOS-latest
+    name: Release
 
-    # strategy:
-    #   matrix:
-    #     node: [12, 13]
-    #     os: [macOS-latest, ubuntu-latest, windows-latest]
+    runs-on: macos
+
+    steps:
+      - name: init
+        uses: actions/checkout@v1
+
+      - name: get package
+        id: package
+        uses: Ireoo/get-package@v1
+        with:
+          path: package.json
+          key: version
+
+      - name: create release
+        id: release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: v${{steps.package.outputs.version}}
+          release_name: V${{steps.package.outputs.version}}
+          draft: false
+          prerelease: false
+
+      - name: init cache
+        env:
+          git_cache: ${{secrets.GIT_CACHE}}
+          upload_url: ${{steps.release.outputs.upload_url}}
+          github_sha: ${{github.sha}}
+        run: |
+          git clone $git_cache cache
+          cd cache
+          echo "$upload_url" > $github_sha.txt
+          git add $github_sha.txt
+          git commit -m "$github_sha"
+          git push
+
+  build:
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      matrix:
+        node: [12, 13]
+        os: [macOS-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: install
         uses: actions/checkout@master
         with:
-          node-version: "latest"
+          node-version: ${{matrix.node}}
 
       - name: get package version
         id: package
@@ -37,46 +77,35 @@ jobs:
           name: API
           path: ./build/
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.0.0
+      - name: init cache
+        id: cache
+        shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{steps.package.outputs.version}}
-          release_name: "V${{steps.package.outputs.version}}"
-          draft: false
-          prerelease: false
+          git_cache: ${{secrets.GIT_CACHE}}
+          github_sha: ${{github.sha}}
+        run: |
+          git clone $git_cache cache
+          cd cache
+          echo "::set-output name=upload_url::$(cat $github_sha.txt)"
 
       - name: Upload Release windows
-        id: upload_release_windows
+        if: startsWith(matrix.os, 'window')
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/api-win.exe
-          asset_name: api-win.exe
+          upload_url: ${{ steps.cache.outputs.upload_url }}
+          asset_path: build/api.exe
+          asset_name: api.exe
           asset_content_type: application/x-executable
 
-      - name: Upload Release macos
-        id: upload_release_macos
+      - name: Upload Release macos & linux
+        if: startsWith(matrix.os, 'mac') || startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/api-macos
-          asset_name: api-macos
-          asset_content_type: application/x-executable
-
-      - name: Upload Release linux
-        id: upload_release_linux
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/api-linux
-          asset_name: api-linux
+          upload_url: ${{ steps.cache.outputs.upload_url }}
+          asset_path: build/api
+          asset_name: api
           asset_content_type: application/x-executable

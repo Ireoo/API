@@ -8,17 +8,15 @@
 		"test": "nodemon -e .js app.js",
 		"test:vue": "cd vue && npm run dev",
 		"reload": "git checkout -- .",
-		"precommit": "lint-staged",
 		"postinstall": "cd vue && npm i",
 		"build": "npm run build:vue && npm run build:pkg",
 		"build:vue": "cd vue && npm i && npm run build",
-		"build:pkg": "pkg . -t node12-win-x64,node12-linux-x64,node12-macos-x64 -d --out-dir ./build/",
+		"build:pkg": "pkg . -b --out-dir ./build/",
 		"deloy": "now --public && now alias",
-		"help": "pkg --help"
+		"help": "pkg --help",
+		"version": "node package.js"
 	},
-	"lint-staged": {
-		"*.{vue,js,json,css,md}": ["prettier --write", "git add"]
-	},
+	"husky": { "hooks": { "pre-commit": "npm run version && git add package.json && pretty-quick --staged" } },
 	"bin": {
 		"mian": "app.js"
 	},
@@ -36,7 +34,6 @@
 	},
 	"devDependencies": {
 		"husky": "^0.14.3",
-		"lint-staged": "^9.5.0",
 		"nodemon": "^1.19.4",
 		"pkg": "^4.4.0",
 		"prettier": "^1.19.1",
