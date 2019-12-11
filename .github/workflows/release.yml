@@ -52,7 +52,7 @@ jobs:
 
     strategy:
       matrix:
-        node: [12, 13]
+        node: [12]
         os: [macOS-latest, ubuntu-latest, windows-latest]
 
     steps:
@@ -98,7 +98,7 @@ jobs:
         with:
           upload_url: ${{ steps.cache.outputs.upload_url }}
           asset_path: build/api.exe
-          asset_name: api.exe
+          asset_name: api-${{matrix.os}}.exe
           asset_content_type: application/x-executable
 
       - name: Upload Release macos & linux
@@ -109,5 +109,5 @@ jobs:
         with:
           upload_url: ${{ steps.cache.outputs.upload_url }}
           asset_path: build/api
-          asset_name: api
+          asset_name: api-${{matrix.os}}
           asset_content_type: application/x-executable
