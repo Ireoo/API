@@ -1,7 +1,7 @@
 {
 	"name": "api",
 	"description": "mongodb api basic with nodejs",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"main": "app.js",
 	"scripts": {
 		"start": "node app.js",
@@ -11,7 +11,7 @@
 		"postinstall": "cd vue && npm i",
 		"build": "npm run build:vue && npm run build:pkg",
 		"build:vue": "cd vue && npm i && npm run build",
-		"build:pkg": "pkg . -b -t node12 --out-dir ./build/",
+		"build:pkg": "pkg . -t node12 --out-dir ./build/",
 		"deloy": "now --public && now alias",
 		"help": "pkg --help",
 		"version": "node package.js"
