@@ -48,12 +48,12 @@ jobs:
   build:
     needs: [release]
 
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.os}}-latest
 
     strategy:
       matrix:
         node: [12]
-        os: [macOS-latest, ubuntu-latest, windows-latest]
+        os: [macOS, ubuntu, windows]
 
     steps:
       - name: install
