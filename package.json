@@ -11,7 +11,7 @@
 		"postinstall": "cd vue && npm i",
 		"build": "npm run build:vue && npm run build:pkg",
 		"build:vue": "cd vue && npm i && npm run build",
-		"build:pkg": "pkg . -b --out-dir ./build/",
+		"build:pkg": "pkg . -b -t node12 --out-dir ./build/",
 		"deloy": "now --public && now alias",
 		"help": "pkg --help",
 		"version": "node package.js"
@@ -25,13 +25,8 @@
 		"mian": "app.js"
 	},
 	"pkg": {
-		"scripts": [
-			"routes/**/*"
-		],
-		"assets": [
-			"dist/**/*",
-			"config.bak.js"
-		]
+		"scripts": ["routes/**/*"],
+		"assets": ["dist/**/*", "config.bak.js"]
 	},
 	"private": true,
 	"dependencies": {
