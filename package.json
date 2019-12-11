@@ -16,13 +16,22 @@
 		"help": "pkg --help",
 		"version": "node package.js"
 	},
-	"husky": { "hooks": { "pre-commit": "npm run version && git add package.json && pretty-quick --staged" } },
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run version && git add package.json && pretty-quick --staged"
+		}
+	},
 	"bin": {
 		"mian": "app.js"
 	},
 	"pkg": {
-		"scripts": ["routes/**/*"],
-		"assets": ["dist/**/*", "config.bak.js"]
+		"scripts": [
+			"routes/**/*"
+		],
+		"assets": [
+			"dist/**/*",
+			"config.bak.js"
+		]
 	},
 	"private": true,
 	"dependencies": {
