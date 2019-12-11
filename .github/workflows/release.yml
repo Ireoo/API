@@ -46,6 +46,8 @@ jobs:
           git push
 
   build:
+    needs: [release]
+
     runs-on: ${{matrix.os}}
 
     strategy:
