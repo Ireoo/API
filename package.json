@@ -1,51 +1,46 @@
 {
-  "name": "api",
-  "description": "mongodb api basic with nodejs",
-  "version": "1.0.2",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "test": "nodemon -e .js app.js",
-    "test:vue": "cd vue && npm run dev",
-    "reload": "git checkout -- .",
-    "postinstall": "cd vue && npm i",
-    "build": "npm run build:vue && npm run build:pkg",
-    "build:vue": "cd vue && npm i && npm run build",
-    "build:pkg": "pkg . -b -t node12 --out-dir ./build/",
-    "deloy": "now --public && now alias",
-    "help": "pkg --help",
-    "version": "node package.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run version && git add package.json && pretty-quick --staged"
-    }
-  },
-  "bin": {
-    "mian": "app.js"
-  },
-  "pkg": {
-    "scripts": [
-      "routes/**/*"
-    ],
-    "assets": [
-      "dist/**/*",
-      "config.bak.js"
-    ]
-  },
-  "private": true,
-  "dependencies": {
-    "compression": "^1.7.4",
-    "express": "^4.17.1",
-    "md5": "^2.2.1",
-    "mongojs": "^2.6.0",
-    "morgan": "^1.9.0"
-  },
-  "devDependencies": {
-    "husky": "^0.14.3",
-    "nodemon": "^1.19.4",
-    "pkg": "^4.4.0",
-    "prettier": "^1.19.1",
-    "pretty-quick": "^1.11.1"
-  }
+	"name": "api",
+	"description": "mongodb api basic with nodejs",
+	"version": "1.0.3",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"test": "nodemon -e .js app.js",
+		"test:vue": "cd vue && npm run dev",
+		"reload": "git checkout -- .",
+		"postinstall": "cd vue && npm i",
+		"build": "npm run build:vue && npm run build:pkg",
+		"build:vue": "cd vue && npm i && npm run build",
+		"build:pkg": "pkg . -b -t node12 --out-dir ./build/",
+		"deloy": "now --public && now alias",
+		"help": "pkg --help",
+		"version": "node package.js"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run version && git add package.json && pretty-quick --staged"
+		}
+	},
+	"bin": {
+		"mian": "app.js"
+	},
+	"pkg": {
+		"scripts": ["routes/**/*"],
+		"assets": ["dist/**/*", "config.bak.js"]
+	},
+	"private": true,
+	"dependencies": {
+		"compression": "^1.7.4",
+		"express": "^4.17.1",
+		"md5": "^2.2.1",
+		"mongojs": "^2.6.0",
+		"morgan": "^1.9.0"
+	},
+	"devDependencies": {
+		"husky": "^3.1.0",
+		"nodemon": "^1.19.4",
+		"pkg": "^4.4.0",
+		"prettier": "^1.19.1",
+		"pretty-quick": "^1.11.1"
+	}
 }
