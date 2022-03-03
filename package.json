@@ -8,7 +8,6 @@
 		"test": "nodemon -e .js app.js",
 		"test:vue": "cd vue && npm run dev",
 		"reload": "git checkout -- .",
-		"postinstall": "cd vue && npm i",
 		"build": "npm run build:vue && npm run build:pkg",
 		"build:vue": "cd vue && npm i && npm run build",
 		"build:pkg": "pkg . -t node12 --out-dir ./build/",
