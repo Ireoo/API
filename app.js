@@ -59,7 +59,7 @@ app.use((req, res, next) => {
      * 获取mongodb数据库参数
      */
     let mongodb_other = config.MONGODB_OTHER ? `?${config.MONGODB_OTHER}` : "";
-    let connect = `${config.MONGODB}/api${mongodb_other}` || "127.0.0.1/api";
+    let connect = config.MONGODB_URI || `${config.MONGODB}/api${mongodb_other}` || "127.0.0.1/api";
 
     /**
      * 设置mongodb数据库连接
